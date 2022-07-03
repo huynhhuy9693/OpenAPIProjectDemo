@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/HuyShopSwaggerOpenAPI.iml" filepath="$PROJECT_DIR$/.idea/HuyShopSwaggerOpenAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EurekaServer/demo.iml" filepath="$PROJECT_DIR$/EurekaServer/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuyShopUserService/demo (1).iml" filepath="$PROJECT_DIR$/HuyShopUserService/demo (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuyShopSpringGateway/demo (2).iml" filepath="$PROJECT_DIR$/HuyShopSpringGateway/demo (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuyShopProductService/demo (3).iml" filepath="$PROJECT_DIR$/HuyShopProductService/demo (3).iml" />
+    </modules>
+  </component>
+</project>

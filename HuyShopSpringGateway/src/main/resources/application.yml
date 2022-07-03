@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/admin-product/**
+        - id: cart
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/admin-cart/**
+        - id: user
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/admin-user/**
+
+  application:
+    name: GATEWAY-SERVICE
+eureka:
+  client:
+    service-url:
+      default-zone: 'http://localhost:8761/eureka'
