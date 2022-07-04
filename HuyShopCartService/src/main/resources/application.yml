@@ -11,7 +11,7 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   application:
-    name: CART-SERVICE
+    name: cart-service
 
 
   datasource:

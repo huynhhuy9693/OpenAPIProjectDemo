@@ -31,17 +31,17 @@ public class CategoryController implements CategoryApi {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/categories")
-    public ResponseEntity<List<CategoryEntity>> getAllCategory()
-    {
-       return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
-    }
-    @GetMapping(value = "/category/{id}")
-    public ResponseEntity<CategoryEntity> findById(@PathVariable Long id)
-    {
-        CategoryEntity category = service.findById(id);
-        return new ResponseEntity<>(category,HttpStatus.OK);
-    }
+//    @GetMapping(value = "/categories")
+//    public ResponseEntity<List<CategoryEntity>> getAllCategory()
+//    {
+//       return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
+//    }
+//    @GetMapping(value = "/category/{id}")
+//    public ResponseEntity<CategoryEntity> findById(@PathVariable Long id)
+//    {
+//        CategoryEntity category = service.findById(id);
+//        return new ResponseEntity<>(category,HttpStatus.OK);
+//    }
 
     @Override
     public ResponseEntity<Category> createCategory(

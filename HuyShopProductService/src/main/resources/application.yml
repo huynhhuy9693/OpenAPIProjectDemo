@@ -8,7 +8,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
   application:
-    name: PRODUCT-SERVICE
+    name: product-service
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER

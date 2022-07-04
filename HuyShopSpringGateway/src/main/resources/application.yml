@@ -17,9 +17,13 @@ spring:
           uri: http://localhost:8082/
           predicates:
             - Path=/admin-user/**
+        - id: report
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/report/**
 
   application:
-    name: GATEWAY-SERVICE
+    name: gateway-service
 eureka:
   client:
     service-url:
