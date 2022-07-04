@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 @RequestMapping(value = "/admin-user")
@@ -21,16 +22,29 @@ public class UserController implements UserApi {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/users")
-    public ResponseEntity<List<UserEntity>> getAllUsers()
+
+    public ResponseEntity<List<User>> getAllUser()
     {
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        List<UserEntity> request = service.findAll();
+        List<User> userList= new ArrayList<>();
+        for (UserEntity u: request) {
+            //map entity to model codegen
+            User response = modelMapper.map(u,User.class);
+            userList.add(response);
+        }
+
+        return new ResponseEntity<>(userList,HttpStatus.OK);
     }
     @GetMapping(value = "/user/{id}")
-    public ResponseEntity<UserEntity> findById(@PathVariable Long id)
+    public ResponseEntity<User> findByUserId(
+            @Parameter(name = "id", description = "ID of user to return", required = true)
+            @PathVariable("id") Long id
+    )
     {
-        UserEntity user = service.findById(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        UserEntity request = service.findById(id);
+        //map entity to model codegen
+        User response = modelMapper.map(request,User.class);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @Override

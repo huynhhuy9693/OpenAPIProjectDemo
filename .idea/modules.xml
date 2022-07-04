@@ -3,11 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HuyShopSwaggerOpenAPI.iml" filepath="$PROJECT_DIR$/.idea/HuyShopSwaggerOpenAPI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/EurekaServer/demo.iml" filepath="$PROJECT_DIR$/EurekaServer/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuyShopReportService/demo.iml" filepath="$PROJECT_DIR$/HuyShopReportService/demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/EurekaServer/demo (1).iml" filepath="$PROJECT_DIR$/EurekaServer/demo (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/HuyShopProductService/demo (2).iml" filepath="$PROJECT_DIR$/HuyShopProductService/demo (2).iml" />
       <module fileurl="file://$PROJECT_DIR$/HuyShopSpringGateway/demo (3).iml" filepath="$PROJECT_DIR$/HuyShopSpringGateway/demo (3).iml" />
       <module fileurl="file://$PROJECT_DIR$/HuyShopUserService/demo (4).iml" filepath="$PROJECT_DIR$/HuyShopUserService/demo (4).iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuyShopCartService/demo (5).iml" filepath="$PROJECT_DIR$/HuyShopCartService/demo (5).iml" />
     </modules>
   </component>
 </project>

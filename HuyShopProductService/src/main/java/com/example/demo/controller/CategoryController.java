@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Controller
 
-@RequestMapping(value = "/admin-product")
+@RequestMapping(value = "/admin-product", produces = {MediaType.APPLICATION_JSON_VALUE})
 
 public class CategoryController implements CategoryApi {
 
@@ -31,17 +32,29 @@ public class CategoryController implements CategoryApi {
     @Autowired
     ModelMapper modelMapper;
 
-//    @GetMapping(value = "/categories")
-//    public ResponseEntity<List<CategoryEntity>> getAllCategory()
-//    {
-//       return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
-//    }
-//    @GetMapping(value = "/category/{id}")
-//    public ResponseEntity<CategoryEntity> findById(@PathVariable Long id)
-//    {
-//        CategoryEntity category = service.findById(id);
-//        return new ResponseEntity<>(category,HttpStatus.OK);
-//    }
+    @Override
+    public ResponseEntity<List<Category>> getAllCategory()
+    {
+        List<CategoryEntity> request = service.findAll();
+        List<Category> categoryList= new ArrayList<>();
+        for (CategoryEntity c: request) {
+            //map entity to model codegen
+             Category response = modelMapper.map(c,Category.class);
+             categoryList.add(response);
+        }
+
+       return new ResponseEntity<>(categoryList,HttpStatus.OK);
+    }
+    @Override
+    public ResponseEntity<Category> findById(
+            @Parameter(name = "id", description = "ID of category to return", required = true)
+            @PathVariable("id") Long id)
+    {
+        CategoryEntity request = service.findById(id);
+        //map entity to model codegen
+        Category response = modelMapper.map(request,Category.class);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<Category> createCategory(

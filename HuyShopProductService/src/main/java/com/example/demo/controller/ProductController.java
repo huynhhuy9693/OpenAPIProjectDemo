@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,16 +29,30 @@ public class ProductController implements ProductApi {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/products")
-    public ResponseEntity<List<ProductEntity>> getAllProduct()
+    @Override
+    public ResponseEntity<List<Product>> getAllProduct()
     {
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        List<ProductEntity> request = service.findAll();
+        List<Product> productList= new ArrayList<>();
+        for (ProductEntity p: request) {
+            //map entity to model codegen
+            Product response = modelMapper.map(p,Product.class); // map entity->DTO
+            productList.add(response);
+        }
+
+        return new ResponseEntity<>(productList,HttpStatus.OK);
     }
-    @GetMapping(value = "/product/{id}")
-    public ResponseEntity<ProductEntity> findById(@PathVariable Long id)
+
+    @Override
+    public ResponseEntity<Product> findByProductId(
+            @Parameter(name = "id", description = "ID of product to return", required = true)
+            @PathVariable("id") Long id
+    )
     {
-        ProductEntity product = service.findById(id);
-        return new ResponseEntity<>(product,HttpStatus.OK);
+        ProductEntity request = service.findById(id);
+        //map entity to model codegen
+        Product response = modelMapper.map(request,Product.class);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @Override
@@ -78,5 +93,13 @@ public class ProductController implements ProductApi {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/product-report")
+    public ResponseEntity<List<ProductEntity>> findAll()
+    {
+        System.out.println("product");
+        List<ProductEntity> list= service.findAll();
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 }

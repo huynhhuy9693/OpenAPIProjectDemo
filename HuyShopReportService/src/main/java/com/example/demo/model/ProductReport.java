@@ -23,5 +23,5 @@ public class ProductReport {
 
         private boolean status;
 
-        private CategoryReport categoryReport;
+
 }

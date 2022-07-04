@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/HuyShopUserService/pom.xml" />
         <option value="$PROJECT_DIR$/HuyShopSpringGateway/pom.xml" />
         <option value="$PROJECT_DIR$/HuyShopProductService/pom.xml" />
+        <option value="$PROJECT_DIR$/HuyShopReportService/pom.xml" />
+        <option value="$PROJECT_DIR$/HuyShopCartService/pom.xml" />
       </list>
     </option>
   </component>

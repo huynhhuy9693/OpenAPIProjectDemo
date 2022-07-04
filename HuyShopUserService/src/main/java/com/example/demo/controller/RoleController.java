@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.api.RoleApi;
 import com.example.demo.entity.RoleEntity;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.model.Role;
+import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.modelmapper.ModelMapper;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 @RequestMapping(value = "/admin-user")
@@ -20,16 +23,29 @@ public class RoleController implements RoleApi {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/roles")
-    public ResponseEntity<List<RoleEntity>> getAllRole()
+
+    public ResponseEntity<List<Role>> getAllRole()
     {
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        List<RoleEntity> request = service.findAll();
+        List<Role> roleList= new ArrayList<>();
+        for (RoleEntity r: request) {
+            //map entity to model codegen
+            Role response = modelMapper.map(r,Role.class);
+            roleList.add(response);
+        }
+
+        return new ResponseEntity<>(roleList,HttpStatus.OK);
     }
-    @GetMapping(value = "/role/{id}")
-    public ResponseEntity<RoleEntity> findById(@PathVariable Long id)
+
+    public ResponseEntity<Role> findByRoleId(
+            @Parameter(name = "id", description = "ID of role to return", required = true)
+            @PathVariable("id") Long id
+    )
     {
-        RoleEntity role = service.findById(id);
-        return new ResponseEntity<>(role,HttpStatus.OK);
+        RoleEntity request = service.findById(id);
+        //map entity to model codegen
+        Role response = modelMapper.map(request,Role.class);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @Override
