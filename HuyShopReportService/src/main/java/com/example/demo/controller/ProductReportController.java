@@ -30,7 +30,6 @@ public class ProductReportController {
     @GetMapping(value = "/products")
     public ResponseEntity<List<ProductReport>> getProductDataToReport()
     {
-        System.out.println("report");
         return new ResponseEntity<>(service.getProductData(), HttpStatus.OK);
     }
 
@@ -49,7 +48,7 @@ public class ProductReportController {
                         .append(0).append(",")
                         .append(product.isStatus()?"Active":"In-Active").append("\n");
             }
-            String fileName ="E:\\dowload\\productreport.csv";
+            String fileName ="C:\\Users\\huy.huynh\\dowloadProdect\\productreport.csv";
 
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.write(fileContent.toString());

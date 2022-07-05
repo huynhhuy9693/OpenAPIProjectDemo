@@ -21,7 +21,6 @@ public class RoleEntity {
     private int id ;
     @Column(name = "name")
     private String name;
-    @ColumnDefault("true")
     @Column(name = "status")
     private boolean status;
 

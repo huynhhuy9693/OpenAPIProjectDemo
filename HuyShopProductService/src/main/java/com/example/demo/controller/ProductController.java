@@ -26,21 +26,12 @@ import java.util.List;
 public class ProductController implements ProductApi {
     @Autowired
     private ProductService service;
-    @Autowired
-    ModelMapper modelMapper;
+
 
     @Override
     public ResponseEntity<List<Product>> getAllProduct()
     {
-        List<ProductEntity> request = service.findAll();
-        List<Product> productList= new ArrayList<>();
-        for (ProductEntity p: request) {
-            //map entity to model codegen
-            Product response = modelMapper.map(p,Product.class); // map entity->DTO
-            productList.add(response);
-        }
-
-        return new ResponseEntity<>(productList,HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
 
     @Override
@@ -49,10 +40,8 @@ public class ProductController implements ProductApi {
             @PathVariable("id") Long id
     )
     {
-        ProductEntity request = service.findById(id);
-        //map entity to model codegen
-        Product response = modelMapper.map(request,Product.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+
+        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
     }
 
     @Override
@@ -60,12 +49,11 @@ public class ProductController implements ProductApi {
             @Parameter(name = "Product", description = "create new product", required = true)
             @Valid @RequestBody Product product
     ) {
-
-        ProductEntity request= modelMapper.map(product,ProductEntity.class);
-        ProductEntity productEntity = service.save(request);
-        System.out.println("crete product " + productEntity.getId());
-        Product response = modelMapper.map(productEntity,Product.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        if(service.save(product)==null)
+        {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(service.save(product),HttpStatus.CREATED);
 
     }
 
@@ -74,12 +62,8 @@ public class ProductController implements ProductApi {
             @Parameter(name = "id", description = "ID of category to return", required = true) @PathVariable("id") Long id,
             @Parameter(name = "Product", description = "update product", required = true) @Valid @RequestBody Product product
     ) {
-        ProductEntity request= modelMapper.map(product,ProductEntity.class);
-        ProductEntity productEntity = service.save(request);
-        System.out.println("crete product " + productEntity.getId());
-        Product response = modelMapper.map(productEntity,Product.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+        service.findById(id);
+        return new ResponseEntity<>(service.save(product),HttpStatus.OK);
     }
 
     @Override
@@ -88,18 +72,9 @@ public class ProductController implements ProductApi {
             @Parameter(name = "id", description = "ID of product to return", required = true)
             @PathVariable("id") Long id
     ) {
-        System.out.println("delete ID" +id);
-        service.findById(id);
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
-    @GetMapping(value = "/product-report")
-    public ResponseEntity<List<ProductEntity>> findAll()
-    {
-        System.out.println("product");
-        List<ProductEntity> list= service.findAll();
-        return new ResponseEntity<>(list,HttpStatus.OK);
-    }
+
 }

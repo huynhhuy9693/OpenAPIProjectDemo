@@ -2,40 +2,52 @@ package com.example.demo.service;
 
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.model.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class UserService {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-
-    public List<UserEntity> findAll()
+    public List<User> findAll()
     {
-        List<UserEntity> entityList = repository.findAll();
-        return entityList;
+        List<UserEntity> request = repository.findAll();
+        List<User> userList = new ArrayList<>();
+        for (UserEntity u: request) {
+            User response = modelMapper.map(u, User.class);
+            userList.add(response);
+        }
+        return userList;
     }
 
-    public UserEntity findById(Long id)
+    public User findById(Long id)
     {
-        for(UserEntity user : repository.findAll())
+        for(UserEntity request : repository.findAll())
         {
-            if(user.getId()==id)
+            if(request.getId()==id)
             {
-                return user;
-
+                User response = modelMapper.map(request, User.class);
+                return response;
             }
         }
         return null;
     }
 
-    public UserEntity save(UserEntity user)
+    public User save(User user)
     {
-        return repository.save(user);
+        UserEntity request = modelMapper.map(user, UserEntity.class);
+        UserEntity userEntity = repository.save(request);
+        User response = modelMapper.map(userEntity , User.class);
+        return response;
     }
     public void delete(Long id)
     {

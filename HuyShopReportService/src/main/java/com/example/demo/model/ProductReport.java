@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import lombok.*;
 
+import javax.persistence.PrePersist;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -23,5 +24,15 @@ public class ProductReport {
 
         private boolean status;
 
+        private int quantity_sold;
+
+        private int quantity_present;
+
+//        @PrePersist
+//        void onPrePersist() {
+//                if (quantity_sold == 0) {
+//                        status=true;
+//                }
+//        }
 
 }

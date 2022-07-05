@@ -340,6 +340,8 @@ components:
           format: int64
         categoryId:
           type: Category
+        img_url:
+          type: string
 
 
 
