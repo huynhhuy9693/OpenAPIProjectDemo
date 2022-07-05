@@ -20,21 +20,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cart'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Cart'
+              $ref: '#/components/schemas/CartItem'
         required: true
       responses:
         200:
           description: Ok
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Cart'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Cart'
         400:
           description: Invalid ID supplied
           content: {}
@@ -64,17 +58,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Cart'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Cart'
+
         required: true
       responses:
         200:
           description: Ok
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Cart'
+
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
@@ -123,17 +113,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CartItem'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/CartItem'
+
         required: true
       responses:
         200:
           description: Ok
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/CartItem'
+
             application/json:
               schema:
                 $ref: '#/components/schemas/CartItem'
@@ -166,17 +152,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CartItem'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/CartItem'
+
         required: true
       responses:
         200:
           description: Ok
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/CartItem'
+
             application/json:
               schema:
                 $ref: '#/components/schemas/CartItem'
@@ -237,10 +219,8 @@ components:
     CartItem:
       description: This is Cart-Item Model
       type: object
-      required:
-        - id
       properties:
-        id:
+        productId:
           type: integer
           format: int64
         name:
