@@ -355,6 +355,11 @@ components:
           type: string
         roleId:
           type: Role
-
+        phone:
+          type: integer
+          format: int64
+        dob:
+          type: string
+          format: date
 
 

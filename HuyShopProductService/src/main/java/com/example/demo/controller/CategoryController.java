@@ -35,52 +35,34 @@ public class CategoryController implements CategoryApi {
     @Override
     public ResponseEntity<List<Category>> getAllCategory()
     {
-        List<CategoryEntity> request = service.findAll();
-        List<Category> categoryList= new ArrayList<>();
-        for (CategoryEntity c: request) {
-            //map entity to model codegen
-             Category response = modelMapper.map(c,Category.class);
-             categoryList.add(response);
-        }
-
-       return new ResponseEntity<>(categoryList,HttpStatus.OK);
+       return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
     @Override
     public ResponseEntity<Category> findById(
             @Parameter(name = "id", description = "ID of category to return", required = true)
             @PathVariable("id") Long id)
     {
-        CategoryEntity request = service.findById(id);
-        //map entity to model codegen
-        Category response = modelMapper.map(request,Category.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Category> createCategory(
             @Parameter(name = "Category", description = "create new category", required = true)
-            @Valid @RequestBody Category category
-    ) {
-
-        CategoryEntity request= modelMapper.map(category,CategoryEntity.class);
-        CategoryEntity categoryEntity = service.save(request);
-        System.out.println("crete category " + categoryEntity.getId());
-        Category response = modelMapper.map(categoryEntity,Category.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+            @Valid @RequestBody Category category)
+    {
+        if(service.save(category)==null)
+        {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(service.save(category),HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Category> updateCategory(
             @Parameter(name = "id", description = "ID of category to return", required = true) @PathVariable("id") Long id,
-            @Parameter(name = "Category", description = "update category", required = true) @Valid @RequestBody Category category
-    ){
-        System.out.println("update category " + category.getId());
-        CategoryEntity request= modelMapper.map(category,CategoryEntity.class);
-        CategoryEntity categoryEntity = service.save(request);
-        Category response = modelMapper.map(categoryEntity,Category.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+            @Parameter(name = "Category", description = "update category", required = true) @Valid @RequestBody Category category)
+    {
+        return new ResponseEntity<>(service.save(category),HttpStatus.OK);
     }
 
     @Override
@@ -88,11 +70,8 @@ public class CategoryController implements CategoryApi {
     public ResponseEntity<Void> deleteCategory(
             @Parameter(name = "id", description = "ID of category to return", required = true) @PathVariable("id") Long id
     ) {
-        System.out.println("delete ID" +id);
-        service.findById(id);
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
 

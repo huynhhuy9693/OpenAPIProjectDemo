@@ -26,15 +26,7 @@ public class RoleController implements RoleApi {
 
     public ResponseEntity<List<Role>> getAllRole()
     {
-        List<RoleEntity> request = service.findAll();
-        List<Role> roleList= new ArrayList<>();
-        for (RoleEntity r: request) {
-            //map entity to model codegen
-            Role response = modelMapper.map(r,Role.class);
-            roleList.add(response);
-        }
-
-        return new ResponseEntity<>(roleList,HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
 
     public ResponseEntity<Role> findByRoleId(
@@ -42,10 +34,7 @@ public class RoleController implements RoleApi {
             @PathVariable("id") Long id
     )
     {
-        RoleEntity request = service.findById(id);
-        //map entity to model codegen
-        Role response = modelMapper.map(request,Role.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
     }
 
     @Override
@@ -53,12 +42,7 @@ public class RoleController implements RoleApi {
             @Parameter(name = "Role", description = "create new role", required = true) @Valid @RequestBody Role role
     ) {
 
-        RoleEntity request= modelMapper.map(role,RoleEntity.class);
-        RoleEntity roleEntity = service.save(request);
-        System.out.println("crete role " + roleEntity.getId());
-        Role response = modelMapper.map(roleEntity,Role.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+        return new ResponseEntity<>(service.save(role),HttpStatus.OK);
     }
 
     @Override
@@ -66,12 +50,7 @@ public class RoleController implements RoleApi {
             @Parameter(name = "id", description = "ID of role to return", required = true) @PathVariable("id") Long id,
             @Parameter(name = "Role", description = "update role", required = true) @Valid @RequestBody Role role
     ){
-        System.out.println("update role " + role.getId());
-        RoleEntity request= modelMapper.map(role,RoleEntity.class);
-        RoleEntity roleEntity = service.save(request);
-        Role response = modelMapper.map(roleEntity,Role.class);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+        return new ResponseEntity<>(service.save(role),HttpStatus.OK);
     }
 
     @Override
@@ -79,10 +58,7 @@ public class RoleController implements RoleApi {
     public ResponseEntity<Void> deleteRole(
             @Parameter(name = "id", description = "ID of role to return", required = true) @PathVariable("id") Long id
     ) {
-        System.out.println("delete ID" +id);
-        service.findById(id);
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 }

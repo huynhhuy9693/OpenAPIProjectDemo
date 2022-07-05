@@ -1,9 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.CategoryEntity;
+import com.example.demo.entity.ProductEntity;
+import com.example.demo.model.Category;
+import com.example.demo.model.Product;
 import com.example.demo.repository.CategoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,30 +18,47 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository repository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-
-    public List<CategoryEntity> findAll()
+    public List<Category> findAll()
     {
-        List<CategoryEntity> entityList = repository.findAll();
-        return entityList;
+        List<CategoryEntity> request = repository.findAll();
+        List<Category> categoryList = new ArrayList<>();
+        for (CategoryEntity c: request) {
+            Category response = modelMapper.map(c, Category.class);
+            categoryList.add(response);
+        }
+        return categoryList;
     }
 
-    public CategoryEntity findById(Long id)
+    public Category findById(Long id)
     {
-        for(CategoryEntity category : repository.findAll())
+        for(CategoryEntity request : repository.findAll())
         {
-            if(category.getId()==id)
+            if(request.getId()==id)
             {
-                return category;
-
+                Category response = modelMapper.map(request, Category.class);
+                return response;
             }
         }
         return null;
     }
 
-    public CategoryEntity save(CategoryEntity category)
+    public Category save(Category category)
     {
-        return repository.save(category);
+        for (CategoryEntity c: repository.findAll() )
+        {
+            if(category.getName().equalsIgnoreCase(c.getName()))
+            {
+                System.out.println(category.getName() + " is exits ");
+                return null;
+            }
+        }
+        CategoryEntity request = modelMapper.map(category, CategoryEntity.class);
+        CategoryEntity categoryEntity = repository.save(request);
+        Category response = modelMapper.map(categoryEntity , Category.class);
+        return response;
     }
     public void delete(Long id)
     {

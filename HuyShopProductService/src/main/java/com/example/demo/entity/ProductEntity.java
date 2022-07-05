@@ -28,7 +28,7 @@ public class ProductEntity {
     private BigDecimal price;
 
     @Column(name="img_url")
-    private String img_url;
+    private String imgUrl;
 
     @Column(name = "quantity")
     private int quantity;

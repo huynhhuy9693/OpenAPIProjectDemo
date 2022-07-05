@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -19,18 +20,18 @@ public class UserEntity {
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "dob")
-    Date dob;
+    private LocalDate dob;
     @Column(name = "phone")
-    String phone;
+    private String phone;
     @Column(name = "email")
-    String email;
+    private String email;
     @Column(name = "address")
-    String address;
+    private String address;
     @Column(name = "status")
-    boolean status;
+    private boolean status;
     @Column(name = "user_name")
     private String userName;
     @Column(name = "pass_word")
