@@ -21,6 +21,10 @@ spring:
           uri: http://localhost:8084/
           predicates:
             - Path=/report/**
+        - id: mail
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/mail/**
 
   application:
     name: gateway-service

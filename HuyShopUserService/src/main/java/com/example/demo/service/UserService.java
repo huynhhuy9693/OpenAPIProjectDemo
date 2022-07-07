@@ -53,4 +53,13 @@ public class UserService {
     {
         repository.deleteById(id);
     }
+
+    public User findByUserName(String userName)
+    {
+        UserEntity userEntity = repository.findByUserName(userName);
+        User user = modelMapper.map(userEntity, User.class);
+        return user;
+
+    }
+
 }

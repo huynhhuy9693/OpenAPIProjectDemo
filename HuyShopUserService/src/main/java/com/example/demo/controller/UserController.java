@@ -26,7 +26,6 @@ public class UserController implements UserApi {
     {
         return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
-    @GetMapping(value = "/user/{id}")
     public ResponseEntity<User> findByUserId(
             @Parameter(name = "id", description = "ID of user to return", required = true)
             @PathVariable("id") Long id
@@ -59,5 +58,13 @@ public class UserController implements UserApi {
     ) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/user/{username}")
+    public ResponseEntity<User> findByUser(@PathVariable ("username") String userName)
+    {
+        User user = service.findByUserName(userName);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 }

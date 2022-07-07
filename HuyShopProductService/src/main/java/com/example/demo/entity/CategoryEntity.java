@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.example.demo.model.Category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

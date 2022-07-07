@@ -62,7 +62,7 @@
 <!--		</dependency>-->
 
 
-	</dependencies>-*
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -72,9 +72,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-
-
 		</dependencies>
 	</dependencyManagement>
 

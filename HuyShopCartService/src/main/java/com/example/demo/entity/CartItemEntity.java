@@ -23,7 +23,9 @@ public class CartItemEntity {
     private Long price;
     @Column(name = "quantity")
     private Long quantity;
-
+    @ManyToOne
+    @JoinColumn(name = "cart_id" )
+    private CartEntity cartEntity;
 
 
 }

@@ -1,27 +1,27 @@
 package com.example.demo.service;
 
 
+import com.example.demo.entity.CartItemEntity;
 import com.example.demo.model.CartItem;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class CartItemService {
-    Map<Long, CartItem>  maps = new HashMap<>();
+    Map<Long, CartItemEntity>  maps = new HashMap<>();
 
-    public void addCartItem(CartItem item)
+    public void addCartItem(CartItemEntity item)
     {
 
-        CartItem cartItem = maps.get(item.getProductId());
-        if(cartItem==null)
+        CartItemEntity cartItemEntity = maps.get(item.getProductId());
+        if(cartItemEntity==null)
         {
             maps.put(item.getProductId(), item);
         }else
         {
-            cartItem.setQuantity(cartItem.getQuantity()+1);
+            cartItemEntity.setQuantity(cartItemEntity.getQuantity()+1);
         }
     }
 
@@ -29,9 +29,9 @@ public class CartItemService {
     {
         maps.remove(id);
     }
-    public CartItem updateQuantity(Long productId, Long quantity)
+    public CartItemEntity updateQuantity(Long productId, Long quantity)
     {
-        CartItem cartItem = maps.get(productId);
+        CartItemEntity cartItem = maps.get(productId);
         cartItem.setQuantity(quantity);
         return cartItem;
     }
@@ -39,7 +39,7 @@ public class CartItemService {
     {
         maps.clear();
     }
-    public Collection<CartItem> getAllCartItem()
+    public Collection<CartItemEntity> getAllCartItem()
     {
         return maps.values();
     }

@@ -53,7 +53,7 @@ public class ProductController implements ProductApi {
         {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(service.save(product),HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
@@ -76,5 +76,12 @@ public class ProductController implements ProductApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/product/name/{name}")
+    public ResponseEntity<List<Product>> findByName(@PathVariable ("name") String name)
+    {
+        List<Product> productList = service.findByName(name);
+        return new ResponseEntity<>(productList,HttpStatus.OK);
+
+    }
 
 }

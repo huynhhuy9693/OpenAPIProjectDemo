@@ -27,6 +27,7 @@ public class ProductReportController {
 
     @Autowired
     ProductReportService service;
+
     @GetMapping(value = "/products")
     public ResponseEntity<List<ProductReport>> getProductDataToReport()
     {

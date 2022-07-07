@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class ProductService {
     public List<Product> findAll()
     {
         List<ProductEntity> request = repository.findAll();
-        List<Product> productList = new ArrayList<>();
+        List<Product> productList = new LinkedList<>();
         for (ProductEntity p: request) {
             Product response = modelMapper.map(p, Product.class);
             productList.add(response);
@@ -49,6 +50,7 @@ public class ProductService {
         for (ProductEntity p: repository.findAll() )
         {
             if(product.getName().equalsIgnoreCase(p.getName()))
+
             {
                 System.out.println(product.getName() + " is exits ");
                 return null;
@@ -63,5 +65,16 @@ public class ProductService {
     public void delete(Long id)
     {
         repository.deleteById(id);
+    }
+
+    public List<Product> findByName(String name)
+    {
+        List<ProductEntity> request = repository.findByName(name);
+        List<Product> response = new ArrayList<>();
+         for (ProductEntity p:request) {
+            Product product = modelMapper.map(p,Product.class);
+            response.add(product);
+        }
+        return response;
     }
 }
