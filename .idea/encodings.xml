@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/EurekaServer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HuyShopCartService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HuyShopCartService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/HuyShopMailService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/HuyShopMailService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HuyShopProductService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HuyShopProductService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HuyShopReportService/src/main/java" charset="UTF-8" />

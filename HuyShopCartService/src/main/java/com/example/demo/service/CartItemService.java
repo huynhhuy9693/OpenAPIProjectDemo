@@ -3,37 +3,58 @@ package com.example.demo.service;
 
 import com.example.demo.entity.CartItemEntity;
 import com.example.demo.model.CartItem;
+import com.example.demo.repository.CartItemRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 @Service
 public class CartItemService {
+
+    @Autowired
+    CartItemRepository repository;
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    ProductFeignClient productFeignClient;
+
     Map<Long, CartItemEntity>  maps = new HashMap<>();
 
-    public void addCartItem(CartItemEntity item)
-    {
+   public Set<CartItem> findById(Long id)
+   {
 
-        CartItemEntity cartItemEntity = maps.get(item.getProductId());
-        if(cartItemEntity==null)
-        {
-            maps.put(item.getProductId(), item);
-        }else
-        {
-            cartItemEntity.setQuantity(cartItemEntity.getQuantity()+1);
-        }
-    }
+            Set<CartItem> cartItems = new HashSet<>();
+           for(CartItemEntity request : repository.findAll())
+           {
+               if(request.getId()==id)
+               {
+                   CartItem response = modelMapper.map(request, CartItem.class);
+                   cartItems.add(response);
+               }
+               return cartItems;
+           }
+           return null;
+       }
+
+
 
     public void removeCartItem(Long id)
     {
         maps.remove(id);
     }
-    public CartItemEntity updateQuantity(Long productId, Long quantity)
+    public CartItemEntity updateQuantity(Long productId)
     {
         CartItemEntity cartItem = maps.get(productId);
-        cartItem.setQuantity(quantity);
-        return cartItem;
+        if(cartItem.getQuantity()<=productFeignClient.getQuantityById(productId))
+        {
+            cartItem.setQuantity(cartItem.getQuantity());
+            return cartItem;
+        }
+        removeCartItem(productId);
+        return null;
     }
     public void clearCartItem()
     {

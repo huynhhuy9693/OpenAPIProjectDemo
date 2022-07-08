@@ -2,11 +2,9 @@ package com.example.demo.dto;
 
 import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CartItemEntity;
-import com.example.demo.model.Cart;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.HashSet;
+import lombok.*;
+
 import java.util.Set;
 
 @Setter
@@ -16,5 +14,7 @@ public class Purchase {
     UserOrder userOrder;
     CartEntity cartEntity;
     Set<CartItemEntity> cartItemEntities;
+    String shippingAddress;
+    String status;
 
 }

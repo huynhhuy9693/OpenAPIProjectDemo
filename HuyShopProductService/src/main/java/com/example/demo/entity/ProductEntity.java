@@ -33,6 +33,7 @@ public class ProductEntity {
     @Column(name = "quantity")
     private int quantity;
 
+    //change -> select
     @Column(name ="status")
     private boolean status;
 

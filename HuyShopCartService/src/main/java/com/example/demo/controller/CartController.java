@@ -1,15 +1,15 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.CartDTO;
 import com.example.demo.dto.Purchase;
+import com.example.demo.dto.PurchaseResponse;
 import com.example.demo.service.CartService;
+import org.apache.http.impl.BHttpConnectionBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/cart")
@@ -19,10 +19,16 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping(value = "/purchase")
-    public ResponseEntity<Purchase> placeOrder(@RequestBody Purchase purchase)
+    public ResponseEntity<PurchaseResponse> placeOrder(@RequestBody Purchase purchase)
     {
-        Purchase purchase1 = cartService.placeOrder(purchase);
-        return new ResponseEntity<>(purchase1, HttpStatus.OK);
+        PurchaseResponse purchaseResponse = cartService.placeOrder(purchase);
+        return new ResponseEntity<>(purchaseResponse, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{orderNumber}")
+    public ResponseEntity<CartDTO> findByOrderNumber(@PathVariable ("orderNumber") String orderNumber)
+    {
+        return new ResponseEntity<>(cartService.findByOrderNumber(orderNumber), HttpStatus.OK);
     }
 
 

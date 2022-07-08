@@ -19,7 +19,7 @@ public class User {
     private String email;
     private String name;
     private String address;
-    private boolean status;
     private String phone;
     private LocalDate dob;
+
 }

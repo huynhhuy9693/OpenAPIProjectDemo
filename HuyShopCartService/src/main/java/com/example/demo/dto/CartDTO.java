@@ -16,10 +16,12 @@ import java.util.UUID;
 public class CartDTO {
 
     private Long id ;
-    private UUID oderNumber;
+    private String oderNumber;
     private Double totalPrice;
     private String status;
     private String shippingAddress;
+    private String email;
     private Set<CartItemEntity> cartItemEntities = new HashSet<>();
     private UserOrder userOrder;
+
 }

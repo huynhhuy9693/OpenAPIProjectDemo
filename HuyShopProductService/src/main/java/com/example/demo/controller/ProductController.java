@@ -84,4 +84,11 @@ public class ProductController implements ProductApi {
 
     }
 
+    @GetMapping(value = "/quantity/{id}")
+    public ResponseEntity getQuantityById(@PathVariable  Long id)
+    {
+        int quantity = service.getQuantityById(id);
+       return new ResponseEntity<>(quantity,HttpStatus.OK);
+    }
+
 }

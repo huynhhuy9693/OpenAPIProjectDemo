@@ -77,4 +77,10 @@ public class ProductService {
         }
         return response;
     }
+
+    public Integer getQuantityById(Long id)
+    {
+        int quantity = repository.getQuantityById(id);
+       return quantity;
+    }
 }

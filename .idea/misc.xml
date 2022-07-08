@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/HuyShopProductService/pom.xml" />
         <option value="$PROJECT_DIR$/HuyShopReportService/pom.xml" />
         <option value="$PROJECT_DIR$/HuyShopCartService/pom.xml" />
+        <option value="$PROJECT_DIR$/HuyShopMailService/pom.xml" />
       </list>
     </option>
   </component>
