@@ -6,6 +6,7 @@ import com.example.demo.api.CategoryApi;
 import com.example.demo.entity.CategoryEntity;
 import com.example.demo.model.Category;
 import com.example.demo.service.CategoryService;
+import io.swagger.models.auth.In;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

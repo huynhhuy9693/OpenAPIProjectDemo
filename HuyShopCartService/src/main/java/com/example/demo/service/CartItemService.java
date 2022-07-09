@@ -39,7 +39,18 @@ public class CartItemService {
            return null;
        }
 
+    public void addCartItem(CartItemEntity item)
+    {
 
+        CartItemEntity cartItemEntity = maps.get(item.getProductId());
+        if(cartItemEntity==null)
+        {
+            maps.put(item.getProductId(), item);
+        }else
+        {
+            cartItemEntity.setQuantity(cartItemEntity.getQuantity()+1);
+        }
+    }
 
     public void removeCartItem(Long id)
     {

@@ -5,6 +5,8 @@ import com.example.demo.entity.CartItemEntity;
 
 import lombok.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Setter
@@ -12,8 +14,8 @@ import java.util.Set;
 public class Purchase {
 
     UserOrder userOrder;
-    CartEntity cartEntity;
-    Set<CartItemEntity> cartItemEntities;
+    CartDTO cartDTO;
+    List<CartItemDTO> cartItemDTOList;
     String shippingAddress;
     String status;
 

@@ -37,7 +37,7 @@ public class MailService {
         javaMailSender.send(mailMessage);
     }
 
-    public void sendMailPurchaseSuccse(String orderNumber,str purchase)
+    public void sendMailPurchaseSuccse(String orderNumber,Purchase purchase)
     {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo("huyhuynh9693@gmail.com");

@@ -7,9 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -36,16 +34,16 @@ public class CartEntity {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartEntity")
-    private Set<CartItemEntity> cartItemEntities = new HashSet<>();
+    private List<CartItemEntity> cartItemEntityList = new LinkedList<>();
 
     public void add(CartItemEntity item) {
 
         if (item != null) {
-            if(cartItemEntities == null) {
-                cartItemEntities = new HashSet<>();
+            if(cartItemEntityList == null) {
+                cartItemEntityList = new LinkedList<>();
             }
         }
-        cartItemEntities.add(item);
+        cartItemEntityList.add(item);
         item.setCartEntity(this);
     }
 

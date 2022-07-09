@@ -91,4 +91,11 @@ public class ProductController implements ProductApi {
        return new ResponseEntity<>(quantity,HttpStatus.OK);
     }
 
+    @PutMapping(value = "/product/{id}/{quantity}")
+    public ResponseEntity<Integer> updateProductQuantityForId(@PathVariable("quantity") int quantity,@PathVariable("id") Long id)
+    {
+        int result = service.updateProductQuantityForId(quantity ,id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
 }

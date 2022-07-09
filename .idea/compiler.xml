@@ -13,6 +13,7 @@
         <module name="demo (3)" />
         <module name="demo (6)" />
         <module name="demo (5)" />
+        <module name="demo (7)" />
         <module name="demo" />
       </profile>
     </annotationProcessing>
@@ -24,6 +25,7 @@
       <module name="demo (4)" target="11" />
       <module name="demo (5)" target="11" />
       <module name="demo (6)" target="11" />
+      <module name="demo (7)" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -35,6 +37,7 @@
       <module name="demo (4)" options="-parameters" />
       <module name="demo (5)" options="-parameters" />
       <module name="demo (6)" options="-parameters" />
+      <module name="demo (7)" options="-parameters" />
     </option>
   </component>
 </project>

@@ -5,10 +5,12 @@ import com.example.demo.entity.ProductEntity;
 import com.example.demo.model.Product;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
+import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,5 +84,12 @@ public class ProductService {
     {
         int quantity = repository.getQuantityById(id);
        return quantity;
+    }
+
+    @Transactional
+    public Integer updateProductQuantityForId(int quantity,Long id)
+    {
+        int result = repository.updateProductQuantityForId(quantity,id);
+        return result;
     }
 }

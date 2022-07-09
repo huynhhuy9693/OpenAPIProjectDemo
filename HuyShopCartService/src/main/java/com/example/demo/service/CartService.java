@@ -1,30 +1,27 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.CartDTO;
-import com.example.demo.dto.Purchase;
-import com.example.demo.dto.PurchaseResponse;
-import com.example.demo.dto.UserOrder;
+import com.example.demo.dto.*;
 import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CartItemEntity;
+import com.example.demo.model.Cart;
 import com.example.demo.repository.CartItemRepository;
 import com.example.demo.repository.CartRepository;
+import com.sun.jdi.InvocationException;
 import io.swagger.annotations.OAuth2Definition;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSInput;
 
 
-import java.util.Random;
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 @Service
 public class CartService {
 
-    @Autowired
-    CartItemRepository cartItemRepository;
-
-    @Autowired
-    ProductFeignClient productFeignClient;
+   @Autowired
+   private ProductFeignClient productFeignClient;
     @Autowired
     CartRepository repository;
 
@@ -34,6 +31,9 @@ public class CartService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CartItemService cartItemService;
+
     private static final String digits = "0123456789"; // 0-9
     private static final String ALPHA_NUMERIC =  digits;
     private static Random generator = new Random();
@@ -41,33 +41,54 @@ public class CartService {
     {
         int numberOfCharactor = 6;
 
-        CartEntity cart = purchase.getCartEntity();
+
+        CartDTO cartDTO = purchase.getCartDTO();
 
         String oderNumber = generateOrderNumber(numberOfCharactor);
-        cart.setOderNumber(oderNumber);
+        cartDTO.setOderNumber(oderNumber);
 
-        Set<CartItemEntity> cartItemEntities = purchase.getCartItemEntities();
-        map<String,int>
+        List<CartItemDTO> cartItemDTOList = purchase.getCartItemDTOList();
+        cartDTO.setCartItemDTOList(cartItemDTOList);
 
-        cart.setCartItemEntities(cartItemEntities);
-        for (CartItemEntity c: cartItemEntities) {
-            if(c.getQuantity()>= productFeignClient.getQuantityById(c.getProductId()))
+            // check quantity purchase -> quantity shop
+            for (int i =0;i<cartItemDTOList.size();i++)
             {
-
+                int quantity = productFeignClient.getQuantityById(cartItemDTOList.get(i).getProductId());
+                {
+                    if (quantity <= cartItemDTOList.get(i).getQuantity()) {
+                        cartItemDTOList.remove(cartItemDTOList.get(i));
+                        i--;
+                    }
+                }
             }
-        }
+
 
         UserOrder userOrder = purchase.getUserOrder();
-        cart.setUserNameOrder(userOrder.getUserName());
+        cartDTO.setUserNameOrder(userOrder.getUserName());
+        cartDTO.setShippingAddress(purchase.getShippingAddress());
+        cartDTO.setStatus("DELIVERY");
+        cartDTO.setEmail(purchase.getUserOrder().getEmail());
 
-        cart.setShippingAddress(purchase.getShippingAddress());
+        //save DB
+        CartEntity cart = modelMapper.map(cartDTO,CartEntity.class);
+        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
+        for (CartItemDTO cartItemDTO : cartItemDTOList)
+        {
+            CartItemEntity cartItemEntity = modelMapper.map(cartItemDTO,CartItemEntity.class);
+            cartItemEntityList.add(cartItemEntity);
+            cart.add(cartItemEntity);
+        }
 
-        cart.setStatus("DELIVERY");
-
-        cart.setEmail(purchase.getUserOrder().getEmail());
-
-
-
+        //update quantity shop
+        for (CartItemEntity cartItem:cartItemEntityList) {
+            int quantity = cartItem.getQuantity();
+            System.out.println(quantity);
+            int quantityShop = productFeignClient.getQuantityById(cartItem.getProductId());
+            System.out.println(quantityShop);
+            int result = (quantityShop-quantity);
+            System.out.println(result);
+            productFeignClient.updateProductQuantityForId(result, cartItem.getProductId());
+        }
         repository.save(cart);
         purchase.setStatus("SUCCESS");
 
@@ -80,8 +101,8 @@ public class CartService {
         }
         return new PurchaseResponse(oderNumber);
     }
+
     private String generateOrderNumber(int numberOfCharactor) {
-//		return UUID.randomUUID().toString();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < numberOfCharactor; i++) {
             int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
@@ -101,4 +122,6 @@ public class CartService {
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
         return cartDTO;
     }
+
+
 }

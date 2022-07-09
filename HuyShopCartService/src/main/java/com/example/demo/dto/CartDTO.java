@@ -4,9 +4,7 @@ import com.example.demo.entity.CartItemEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -19,9 +17,19 @@ public class CartDTO {
     private String oderNumber;
     private Double totalPrice;
     private String status;
-    private String shippingAddress;
-    private String email;
-    private Set<CartItemEntity> cartItemEntities = new HashSet<>();
+    private List<CartItemDTO> cartItemDTOList = new LinkedList<>();
     private UserOrder userOrder;
+    private String shippingAddress;
+    private String userNameOrder;
+    private String email;
 
+    public void add(CartItemDTO item) {
+
+        if (item != null) {
+            if(cartItemDTOList == null) {
+                cartItemDTOList = new LinkedList<>();
+            }
+        }
+        item.setCartDTO(this);
+    }
 }
