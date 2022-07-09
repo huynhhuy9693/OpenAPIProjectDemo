@@ -13,7 +13,9 @@ public interface ProductFeignClient {
     @GetMapping(value = "/admin-product/quantity/{id}")
     Integer getQuantityById(@PathVariable Long id);
 
-    @PutMapping(value = "/admin-product/product/{id}/{quantity}")
-    Integer updateProductQuantityForId(@PathVariable ("quantity") int quantity,@PathVariable ("id") Long id);
+    @PutMapping(value = "/admin-product/product/{id}/{quantity-present}")
+    Integer updateProductQuantityForId(@PathVariable ("quantity-present") int quantityPresent,@PathVariable ("id") Long id);
+
+    
 
 }

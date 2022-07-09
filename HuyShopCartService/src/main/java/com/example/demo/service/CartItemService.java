@@ -83,4 +83,11 @@ public class CartItemService {
     {
         return maps.values().stream().mapToDouble(item->item.getPrice()*item.getQuantity()).sum();
     }
+
+    public Integer countCartItemByProductId(Long productId) {
+
+        int result = repository.countCartItemByProductId(productId);
+        return result;
+    }
 }
+

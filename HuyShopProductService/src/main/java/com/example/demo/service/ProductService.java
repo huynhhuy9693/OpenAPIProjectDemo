@@ -22,6 +22,9 @@ public class ProductService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    CartItemFeignClient cartItemFeignClient;
+
 
     public List<Product> findAll()
     {
@@ -49,15 +52,6 @@ public class ProductService {
 
     public Product save(Product product)
     {
-        for (ProductEntity p: repository.findAll() )
-        {
-            if(product.getName().equalsIgnoreCase(p.getName()))
-
-            {
-                System.out.println(product.getName() + " is exits ");
-                return null;
-            }
-        }
         ProductEntity request = modelMapper.map(product, ProductEntity.class);
         ProductEntity productEntity = repository.save(request);
         Product response = modelMapper.map(productEntity , Product.class);
@@ -87,9 +81,9 @@ public class ProductService {
     }
 
     @Transactional
-    public Integer updateProductQuantityForId(int quantity,Long id)
+    public Integer updateProductQuantityForId(int quantityPresent,Long id)
     {
-        int result = repository.updateProductQuantityForId(quantity,id);
+        int result = repository.updateProductQuantityForId(quantityPresent,id);
         return result;
     }
 }

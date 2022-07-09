@@ -13,20 +13,13 @@ import java.math.BigDecimal;
 public class ProductReport {
 
         private long id;
-
         private String name;
-
         private BigDecimal price;
-
         private String img_url;
-
         private int quantity;
-
         private boolean status;
-
-        private int quantity_sold;
-
-        private int quantity_present;
+        private int sold;
+        private int quantityPresent;
 
 //        @PrePersist
 //        void onPrePersist() {

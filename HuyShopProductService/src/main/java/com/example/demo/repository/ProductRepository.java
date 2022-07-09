@@ -14,10 +14,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
     List<ProductEntity> findByName(String name);
 
-    @Query("select p.quantity from ProductEntity p where p.id = :id")
+    @Query("select p.quantityPresent from ProductEntity p where p.id = :id")
     Integer getQuantityById(@Param("id") Long id);
 
     @Modifying
-    @Query("update ProductEntity p set p.quantity=:quantity where p.id=:id")
-    Integer updateProductQuantityForId(@Param("quantity") int quantity, @Param("id") Long id);
+    @Query("update ProductEntity p set p.quantityPresent=:quantityPresent where p.id=:id")
+    Integer updateProductQuantityForId(@Param("quantityPresent") int quantityPresent, @Param("id") Long id);
+
+
 }

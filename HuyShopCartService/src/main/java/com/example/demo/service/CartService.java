@@ -34,13 +34,13 @@ public class CartService {
     @Autowired
     private CartItemService cartItemService;
 
-    private static final String digits = "0123456789"; // 0-9
+    private static final String digits = "0123456789";
     private static final String ALPHA_NUMERIC =  digits;
     private static Random generator = new Random();
     public PurchaseResponse placeOrder(Purchase purchase)
     {
-        int numberOfCharactor = 6;
 
+        int numberOfCharactor = 6;
 
         CartDTO cartDTO = purchase.getCartDTO();
 
@@ -55,7 +55,7 @@ public class CartService {
             {
                 int quantity = productFeignClient.getQuantityById(cartItemDTOList.get(i).getProductId());
                 {
-                    if (quantity <= cartItemDTOList.get(i).getQuantity()) {
+                    if (quantity < cartItemDTOList.get(i).getQuantity()) {
                         cartItemDTOList.remove(cartItemDTOList.get(i));
                         i--;
                     }
@@ -69,7 +69,7 @@ public class CartService {
         cartDTO.setStatus("DELIVERY");
         cartDTO.setEmail(purchase.getUserOrder().getEmail());
 
-        //save DB
+        //save DB and update quantity in tabble Product
         CartEntity cart = modelMapper.map(cartDTO,CartEntity.class);
         List<CartItemEntity> cartItemEntityList = new ArrayList<>();
         for (CartItemDTO cartItemDTO : cartItemDTOList)
@@ -77,17 +77,13 @@ public class CartService {
             CartItemEntity cartItemEntity = modelMapper.map(cartItemDTO,CartItemEntity.class);
             cartItemEntityList.add(cartItemEntity);
             cart.add(cartItemEntity);
-        }
-
-        //update quantity shop
-        for (CartItemEntity cartItem:cartItemEntityList) {
-            int quantity = cartItem.getQuantity();
-            System.out.println(quantity);
-            int quantityShop = productFeignClient.getQuantityById(cartItem.getProductId());
-            System.out.println(quantityShop);
+            int quantity = cartItemDTO.getQuantity();
+//            System.out.println(quantity);
+            int quantityShop = productFeignClient.getQuantityById(cartItemDTO.getProductId());
+//            System.out.println(quantityShop);
             int result = (quantityShop-quantity);
-            System.out.println(result);
-            productFeignClient.updateProductQuantityForId(result, cartItem.getProductId());
+//            System.out.println(result);
+            productFeignClient.updateProductQuantityForId(result, cartItemDTO.getProductId());
         }
         repository.save(cart);
         purchase.setStatus("SUCCESS");
@@ -97,6 +93,7 @@ public class CartService {
             mailFeignClient.sendMailSuccess(oderNumber,purchase);
         }catch (Exception e)
         {
+
             e.printStackTrace();
         }
         return new PurchaseResponse(oderNumber);

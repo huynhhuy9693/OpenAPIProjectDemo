@@ -37,6 +37,11 @@ public class ProductEntity {
     @Column(name ="status")
     private boolean status;
 
+    @Column(name = "sold")
+    private int sold;
+
+    @Column(name = "quantity_present")
+    private int quantityPresent;
 
     @ManyToOne
     @JoinColumn(name = "category_id" )
@@ -48,4 +53,20 @@ public class ProductEntity {
             status=true;
         }
     }
+
+//    @PrePersist
+//    void onPrePersist1() {
+//        if (sold == Integer.parseInt(null)) {
+//            sold=0;
+//        }
+//    }
+
+//    @PrePersist
+//    void onPrePersist2() {
+//        if (quantityPresent == Integer.parseInt(null)) {
+//            quantityPresent=0;
+//        }
+//    }
+
+
 }

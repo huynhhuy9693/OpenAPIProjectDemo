@@ -338,6 +338,12 @@ components:
         price:
           type: integer
           format: int64
+        sold:
+          type: integer
+          format: int32
+        quantityPresent:
+          type: integer
+          format: int32
         categoryId:
           type: Category
         img_url:
