@@ -18,4 +18,8 @@ CartRepository extends JpaRepository<CartEntity,Long> {
     Integer updateStatusByOrdernumber(@Param("status") String status,@Param("orderNumber") String orderNumber);
 
 
+    @Query("SELECT SUM(c.totalPrice) FROM CartEntity c")
+    Long sumTotalPrice();
+
+
 }

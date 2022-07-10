@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.*;
 import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CartItemEntity;
+import com.example.demo.model.Cart;
 import com.example.demo.repository.CartRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,29 @@ public class CartService {
     @Transactional
     public Integer updateStatusByOrdernumber(String status , String orderNumber)
     {
-        status ="SUCCES";
+        status ="SUCCESS";
         int result = repository.updateStatusByOrdernumber(status,orderNumber);
         return result;
     }
+
+    public List<Cart> findAll()
+    {
+        List<CartEntity> request = repository.findAll();
+        List<Cart> cartList = new ArrayList<>();
+        for (CartEntity c: request) {
+            Cart response = modelMapper.map(c, Cart.class);
+            cartList.add(response);
+        }
+        return cartList;
+    }
+
+    public Long sumTotalPrice()
+    {
+        Long result = repository.sumTotalPrice();
+        return result;
+    }
+
+
+
 
 }
