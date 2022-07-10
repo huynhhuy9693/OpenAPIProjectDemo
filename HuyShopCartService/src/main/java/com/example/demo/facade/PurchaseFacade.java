@@ -58,8 +58,6 @@ public class PurchaseFacade {
                 }
             }
         }
-
-
         UserOrder userOrder = purchase.getUserOrder();
         cartDTO.setUserNameOrder(userOrder.getUserName());
         cartDTO.setShippingAddress(purchase.getShippingAddress());
@@ -68,11 +66,11 @@ public class PurchaseFacade {
 
         //save DB and update quantity in tabble Product
         CartEntity cart = modelMapper.map(cartDTO,CartEntity.class);
-        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
+//        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
         for (CartItemDTO cartItemDTO : cartItemDTOList)
         {
             CartItemEntity cartItemEntity = modelMapper.map(cartItemDTO,CartItemEntity.class);
-            cartItemEntityList.add(cartItemEntity);
+//            cartItemEntityList.add(cartItemEntity);
             cart.add(cartItemEntity);
             int quantity = cartItemDTO.getQuantity();
 //            System.out.println(quantity);
@@ -90,7 +88,6 @@ public class PurchaseFacade {
             mailFeignClient.sendMailSuccess(oderNumber,purchase);
         }catch (Exception e)
         {
-
             e.printStackTrace();
         }
         return new PurchaseResponse(oderNumber);
