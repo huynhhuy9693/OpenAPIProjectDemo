@@ -33,7 +33,7 @@ public class ProductEntity {
     @Column(name = "quantity")
     private int quantity;
 
-    //change -> select
+    //change -> String
     @Column(name ="status")
     private boolean status;
 
@@ -54,19 +54,6 @@ public class ProductEntity {
         }
     }
 
-//    @PrePersist
-//    void onPrePersist1() {
-//        if (sold == Integer.parseInt(null)) {
-//            sold=0;
-//        }
-//    }
-
-//    @PrePersist
-//    void onPrePersist2() {
-//        if (quantityPresent == Integer.parseInt(null)) {
-//            quantityPresent=0;
-//        }
-//    }
 
 
 }

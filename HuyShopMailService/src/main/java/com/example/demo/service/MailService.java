@@ -9,6 +9,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.MimeMessage;
+
 @Service
 public class MailService {
     private JavaMailSender javaMailSender;
@@ -37,8 +39,11 @@ public class MailService {
         javaMailSender.send(mailMessage);
     }
 
-    public void sendMailPurchaseSuccse(String orderNumber,Purchase purchase)
+    public void sendMailPurchaseSuccse(String orderNumber, String jsonPurchase)
     {
+
+        System.out.println("---"+jsonPurchase);
+
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo("huyhuynh9693@gmail.com");
         mailMessage.setSubject("thank you : " +orderNumber);

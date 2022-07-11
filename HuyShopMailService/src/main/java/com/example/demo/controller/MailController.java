@@ -5,6 +5,7 @@ import com.example.demo.service.MailService;
 import com.example.demo.service.MailServiceFeignClientPurchase;
 import com.example.demo.service.MailServiceFeignClientUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.mail.MailException;
 
 
@@ -56,12 +57,12 @@ public class MailController {
         }
         return "send mail success";
     }
-    @PostMapping(value="/send/{ordernumber}")
-    public String sendEmailCartSuccess(@PathVariable ("ordernumber") String orderNumber , @RequestBody Purchase purchase) {
+    @PostMapping(value="/send/{ordernumber}",consumes = "text/plain;charset=UTF-8")
+    public String sendEmailCartSuccess(@PathVariable ("ordernumber") String orderNumber,@RequestBody String jsonPurchase ) {
         System.out.println("mail-order");
         Purchase p = new Purchase();
         try{
-            service.sendMailPurchaseSuccse(orderNumber,p);
+            service.sendMailPurchaseSuccse(orderNumber,jsonPurchase);
         }catch (MailException e)
         {
             System.out.println(e);

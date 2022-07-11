@@ -24,5 +24,7 @@ spring:
             required: true
           ssl:
             trust: smtp.gmail.com
+    default-encoding: UTF8
+
   application:
     name: mail-service

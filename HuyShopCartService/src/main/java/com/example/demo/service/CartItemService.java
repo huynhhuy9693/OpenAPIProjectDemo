@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.dto.CartItemDTO;
 import com.example.demo.entity.CartItemEntity;
 import com.example.demo.model.CartItem;
 import com.example.demo.repository.CartItemRepository;
@@ -88,6 +89,17 @@ public class CartItemService {
 
         int result = repository.countCartItemByProductId(productId);
         return result;
+    }
+
+    public Set<CartItem> findByOrdernumber(String oderNumber)
+    {
+        Set<CartItemEntity> cartItemEntitySet = repository.findByOrdernumber(oderNumber);
+        Set<CartItem> cartItemDTOSet = new HashSet<>();
+        for (CartItemEntity cartItemEntity: cartItemEntitySet) {
+            CartItem cartItemDTO = modelMapper.map(cartItemEntity, CartItem.class);
+            cartItemDTOSet.add(cartItemDTO);
+        }
+        return cartItemDTOSet;
     }
 }
 

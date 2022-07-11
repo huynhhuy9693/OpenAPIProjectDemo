@@ -41,9 +41,6 @@ public class UserEntity {
     @JoinColumn(name = "role_id")
     private RoleEntity roleId;
 
-//    @OneToOne(mappedBy = "user")
-//    private Cart cart;
-
     @PrePersist
     void onPrePersist() {
         if (status==false) {

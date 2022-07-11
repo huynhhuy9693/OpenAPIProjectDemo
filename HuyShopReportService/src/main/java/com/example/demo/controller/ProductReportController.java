@@ -45,8 +45,8 @@ public class ProductReportController {
                         .append(product.getName()).append(",")
                         .append(product.getPrice()).append(",")
                         .append(product.getQuantity()).append(",")
-                        .append(0).append(",")
-                        .append(0).append(",")
+                        .append(product.getQuantity()- product.getQuantityPresent()).append(",")
+                        .append(product.getQuantityPresent()).append(",")
                         .append(product.isStatus()?"Active":"In-Active").append("\n");
             }
             String fileName ="C:\\Users\\huy.huynh\\dowloadProdect\\productreport.csv";

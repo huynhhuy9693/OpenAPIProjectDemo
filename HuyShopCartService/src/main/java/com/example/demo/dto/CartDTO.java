@@ -23,13 +23,13 @@ public class CartDTO {
     private String userNameOrder;
     private String email;
 
-    public void add(CartItemDTO item) {
-
-        if (item != null) {
-            if(cartItemDTOList == null) {
-                cartItemDTOList = new LinkedList<>();
-            }
-        }
-        item.setCartDTO(this);
-    }
+//    public void add(CartItemDTO item) {
+//
+//        if (item != null) {
+//            if(cartItemDTOList == null) {
+//                cartItemDTOList = new LinkedList<>();
+//            }
+//        }
+//        item.setCartDTO(this);
+//    }
 }

@@ -17,7 +17,8 @@ public class CartItemDTO {
 
     private Long id;
     private Long productId;
+    private String name;
     private Long price;
     private int quantity;
-    private CartDTO cartDTO;
+//    private CartDTO cartDTO;
 }

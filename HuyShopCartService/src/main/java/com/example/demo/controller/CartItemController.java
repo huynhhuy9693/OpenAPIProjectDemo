@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.model.Cart;
 import com.example.demo.model.CartItem;
 import com.example.demo.service.CartItemService;
 import io.swagger.models.auth.In;
@@ -32,5 +33,12 @@ public class CartItemController {
     {
         int result = service.countCartItemByProductId(productId);
         return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/cart-item/cart/{oderNumber}")
+    public ResponseEntity<Set<CartItem>> findByIdCart(@PathVariable ("oderNumber") String oderNumber)
+    {
+        Set<CartItem> cartSet = service.findByOrdernumber(oderNumber);
+        return new ResponseEntity<>(cartSet,HttpStatus.OK);
     }
 }

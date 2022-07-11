@@ -1,5 +1,8 @@
 package com.example.demo.facade;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.example.demo.dto.*;
 import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CartItemEntity;
@@ -11,6 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,8 +40,7 @@ public class PurchaseFacade {
     private static final String digits = "0123456789";
     private static final String ALPHA_NUMERIC =  digits;
     private static Random generator = new Random();
-    public PurchaseResponse placeOrder(Purchase purchase)
-    {
+    public PurchaseResponse placeOrder(Purchase purchase) throws MalformedURLException, MessagingException, UnsupportedEncodingException, JsonProcessingException {
 
         int numberOfCharactor = 6;
 
@@ -44,7 +49,7 @@ public class PurchaseFacade {
         String oderNumber = generateOrderNumber(numberOfCharactor);
         cartDTO.setOderNumber(oderNumber);
 
-        List<CartItemDTO> cartItemDTOList = purchase.getCartItemDTOList();
+        List<CartItemDTO> cartItemDTOList = purchase.getCartDTO().getCartItemDTOList();
         cartDTO.setCartItemDTOList(cartItemDTOList);
 
         // check quantity purchase -> quantity shop
@@ -58,6 +63,7 @@ public class PurchaseFacade {
                 }
             }
         }
+
         UserOrder userOrder = purchase.getUserOrder();
         cartDTO.setUserNameOrder(userOrder.getUserName());
         cartDTO.setShippingAddress(purchase.getShippingAddress());
@@ -83,9 +89,13 @@ public class PurchaseFacade {
         repository.save(cart);
         purchase.setStatus("SUCCESS");
 
+        ObjectWriter obj = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonPurchase = obj.writeValueAsString(purchase);
+
+
+
         try{
-            System.out.println("send mail");
-            mailFeignClient.sendMailSuccess(oderNumber,purchase);
+            mailFeignClient.sendMailSuccess(oderNumber,jsonPurchase);
         }catch (Exception e)
         {
             e.printStackTrace();

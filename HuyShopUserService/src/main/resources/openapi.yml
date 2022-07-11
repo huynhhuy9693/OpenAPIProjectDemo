@@ -351,13 +351,10 @@ components:
           type: string
         passWord:
           type: string
-        imgUrl:
-          type: string
         roleId:
           type: Role
         phone:
-          type: integer
-          format: int64
+          type: string
         dob:
           type: string
           format: date

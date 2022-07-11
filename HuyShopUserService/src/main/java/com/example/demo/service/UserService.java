@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.RoleEntity;
+
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.User;
-import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
@@ -62,4 +63,16 @@ public class UserService {
 
     }
 
+
+    public UserEntity findByUserId(Long id)
+    {
+        for(UserEntity request : repository.findAll())
+        {
+            if(request.getId()==id)
+            {
+               return request;
+            }
+        }
+        return null;
+    }
 }

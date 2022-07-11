@@ -6,12 +6,17 @@ import com.example.demo.dto.Purchase;
 import com.example.demo.dto.PurchaseResponse;
 import com.example.demo.facade.PurchaseFacade;
 import com.example.demo.service.CartService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.models.auth.In;
 import org.apache.http.impl.BHttpConnectionBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 @RestController
 @RequestMapping(value = "/cart")
@@ -24,8 +29,7 @@ public class CartController {
     PurchaseFacade purchaseFacade;
 
     @PostMapping(value = "/purchase")
-    public ResponseEntity<PurchaseResponse> placeOrder(@RequestBody Purchase purchase)
-    {
+    public ResponseEntity<PurchaseResponse> placeOrder(@RequestBody  Purchase purchase) throws MalformedURLException, MessagingException, UnsupportedEncodingException, JsonProcessingException {
         PurchaseResponse purchaseResponse = purchaseFacade.placeOrder(purchase);
         return new ResponseEntity<>(purchaseResponse, HttpStatus.OK);
     }

@@ -14,25 +14,27 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/admin-user")
 public class UserController implements UserApi {
     @Autowired
     private UserService service;
 
-
-
+    @Override
     public ResponseEntity<List<User>> getAllUser()
     {
         return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
-    public ResponseEntity<User> findByUserId(
-            @Parameter(name = "id", description = "ID of user to return", required = true)
-            @PathVariable("id") Long id
-    )
-    {
-        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
-    }
+//    @Override
+//    public ResponseEntity<User> findByUserId(
+//            @Parameter(name = "id", description = "ID of user to return", required = true)
+//            @PathVariable("id") Long id
+//    )
+//    {
+//        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
+//    }
 
     @Override
     public ResponseEntity<User> createUser(
@@ -65,6 +67,13 @@ public class UserController implements UserApi {
     public ResponseEntity<User> findByUser(@PathVariable ("username") String userName)
     {
         User user = service.findByUserName(userName);
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{id}")
+    public  ResponseEntity<UserEntity> findByUsersId(@PathVariable ("id") Long id)
+    {
+        UserEntity user = service.findByUserId(id);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 }
