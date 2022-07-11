@@ -89,18 +89,23 @@ public class PurchaseFacade {
         repository.save(cart);
         purchase.setStatus("SUCCESS");
 
+        // ObjectWriter convert object -> String (jSon)
         ObjectWriter obj = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String jsonPurchase = obj.writeValueAsString(purchase);
 
-
-
         try{
             mailFeignClient.sendMailSuccess(oderNumber,jsonPurchase);
+
         }catch (Exception e)
         {
             e.printStackTrace();
         }
+        mailFeignClient.sendMailBeforeOneDayDelievery(purchase.getUserOrder().getUserName(),jsonPurchase);
         return new PurchaseResponse(oderNumber);
+
+
+
+
     }
 
     private String generateOrderNumber(int numberOfCharactor) {

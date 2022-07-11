@@ -10,8 +10,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: '587'
-    username: huynhhuy9693@gmail.com
-    password: cyvnmufgfyvzqtvw
+    username: huynhhuy362022@gmail.com
+    password: vjqhvxlfwbrzsxpz
     properties:
       mail:
         smtp:
@@ -24,7 +24,10 @@ spring:
             required: true
           ssl:
             trust: smtp.gmail.com
-    default-encoding: UTF8
 
   application:
     name: mail-service
+
+
+#    username: huynhhuy9693@gmail.com
+#    password: cyvnmufgfyvzqtvw

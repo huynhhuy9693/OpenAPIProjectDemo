@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class CartItem {
 
-    private Long id;
-    private Long productId;
-    private Long price;
-    private Long quantity;
-    private Cart cartEntity;
+//    private Long id;
+//    private Long productId;
+//    private Long price;
+//    private Long quantity;
+//    private Cart cartEntity;
 }

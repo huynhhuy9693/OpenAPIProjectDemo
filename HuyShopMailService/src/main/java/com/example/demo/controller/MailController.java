@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mail.MailException;
 
 
-
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 import java.util.Set;
@@ -58,11 +58,11 @@ public class MailController {
         return "send mail success";
     }
     @PostMapping(value="/send/{ordernumber}",consumes = "text/plain;charset=UTF-8")
-    public String sendEmailCartSuccess(@PathVariable ("ordernumber") String orderNumber,@RequestBody String jsonPurchase ) {
+    public String sendEmailCartSuccess(@PathVariable ("ordernumber") String orderNumber,@RequestBody  String jsonPurchase ) {
         System.out.println("mail-order");
         Purchase p = new Purchase();
         try{
-            service.sendMailPurchaseSuccse(orderNumber,jsonPurchase);
+            service.sendMailPurchaseSuccsess(orderNumber,jsonPurchase);
         }catch (MailException e)
         {
             System.out.println(e);
@@ -71,10 +71,19 @@ public class MailController {
    }
 
 
+//    @PostMapping(value="/send/{userName}",consumes = "text/plain;charset=UTF-8")
+//    public String sendMailBeforeOneDayDelievery(@PathVariable ("userName") String userName,@RequestBody  String jsonPurchase ) {
+//        System.out.println("mail-order");
+//        Purchase p = new Purchase();
+//        try{
+//            service.sendMailBeforeOneDayDelievery(userName,jsonPurchase);
+//        }catch (MailException e)
+//        {
+//            System.out.println(e);
+//        }
+//        return "send mail success";
+//    }
 
-    @GetMapping(value = "/home")
-    public String home()
-    {
-        return "hello";
-    }
+
+
 }

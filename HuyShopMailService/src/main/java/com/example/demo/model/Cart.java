@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -17,6 +18,6 @@ public class Cart {
     private String shippingAddress;
     private String userNameOrder;
     private String email;
-    private Set<CartItem> cartItemEntities = new HashSet<>();
+    private List<CartItem> cartItemDTOList;
 
 }

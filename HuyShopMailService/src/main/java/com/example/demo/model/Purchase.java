@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -12,8 +13,7 @@ public class Purchase {
 
 
     User userOrder;
-    Cart cartEntity;
-    Set<CartItem> cartItemEntities;
+    Cart cartDTO;
     String shippingAddress;
     String status;
 
