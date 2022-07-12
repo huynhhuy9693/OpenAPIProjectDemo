@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +44,6 @@ public class PurchaseFacade {
     public PurchaseResponse placeOrder(Purchase purchase) throws MalformedURLException, MessagingException, UnsupportedEncodingException, JsonProcessingException {
 
         int numberOfCharactor = 6;
-
         CartDTO cartDTO = purchase.getCartDTO();
 
         String oderNumber = generateOrderNumber(numberOfCharactor);
@@ -63,13 +63,12 @@ public class PurchaseFacade {
                 }
             }
         }
-
         UserOrder userOrder = purchase.getUserOrder();
         cartDTO.setUserNameOrder(userOrder.getUserName());
         cartDTO.setShippingAddress(purchase.getShippingAddress());
         cartDTO.setStatus("DELIVERY");
         cartDTO.setEmail(purchase.getUserOrder().getEmail());
-
+        cartDTO.setIsSending(Boolean.FALSE);
         //save DB and update quantity in tabble Product
         CartEntity cart = modelMapper.map(cartDTO,CartEntity.class);
 //        List<CartItemEntity> cartItemEntityList = new ArrayList<>();
@@ -86,9 +85,10 @@ public class PurchaseFacade {
 //            System.out.println(result);
             productFeignClient.updateProductQuantityForId(result, cartItemDTO.getProductId());
         }
+        LocalDate localDate = LocalDate.now();
+        cart.setDateOrder(localDate);
         repository.save(cart);
         purchase.setStatus("SUCCESS");
-
         // ObjectWriter convert object -> String (jSon)
         ObjectWriter obj = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String jsonPurchase = obj.writeValueAsString(purchase);
@@ -100,11 +100,7 @@ public class PurchaseFacade {
         {
             e.printStackTrace();
         }
-        mailFeignClient.sendMailBeforeOneDayDelievery(purchase.getUserOrder().getUserName(),jsonPurchase);
         return new PurchaseResponse(oderNumber);
-
-
-
 
     }
 

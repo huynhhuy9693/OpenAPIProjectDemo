@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 
-import com.example.demo.model.CartItem;
-import com.example.demo.model.Purchase;
-import com.example.demo.model.PurchaseDTO;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +12,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class MailService {
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    MailServiceFeignClientPurchase mailServiceFeignClientPurchase;
 
     @Autowired
     public MailService(JavaMailSender javaMailSender)
@@ -55,27 +57,34 @@ public class MailService {
         mailMessage.setTo(purchase.getCartDTO().getEmail());
         mailMessage.setSubject("thank you : " +orderNumber);
         mailMessage.setText("thanks you " + purchase.getUserOrder().getUserName()+
-                "<p> ToTal price : "+purchase.getCartDTO().getTotalPrice()+
-                "<p> Your Order payment "+purchase.getStatus()+"</p>"+
-                "<p>We will delivery your product in 5 days in " + purchase.getShippingAddress()+"</p>"+
-                "<p> Please check invoice details and status in website </p> <p> thank you and see your later </p>"
+                "-- ToTal price : "+purchase.getCartDTO().getTotalPrice()+
+                "-- Your Order payment "+purchase.getStatus()+
+                "--We will delivery your product in 5 days in " + purchase.getShippingAddress()+
+                "-- Please check invoice details and status in website -- thank you and see your later"
                 );
         javaMailSender.send(mailMessage);
     }
 
-//    @Scheduled(cron = "0 */2 * ? * *")
-//    public void sendMailBeforeOneDayDelievery(String userName, String jsonPurchase)
-//    {
-//
-//        //Gson convert String -> Object
-//        Gson gson = new Gson();
-//        Purchase purchase = gson.fromJson(jsonPurchase,Purchase.class);
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setTo(purchase.getCartDTO().getEmail());
-//        mailMessage.setSubject("thank you : " +userName);
-//        mailMessage.setText("Your product will be delieved tomorrow!! Please check your phone ---Thank");
-//        javaMailSender.send(mailMessage);
-//    }
+    @Scheduled(cron = "0 */5 * ? * *")
+    public void sendMailBeforeOneDayDelievery()
+    {
+
+        List<Cart> cartList = mailServiceFeignClientPurchase.findByOrderDate(LocalDate.now().minusDays(4));
+        if(cartList!=null && mailServiceFeignClientPurchase.findByIsSendingFalse()!=null)
+        {
+            for(Cart cart : cartList)
+            {
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo(cart.getEmail());
+                mailMessage.setSubject("thank you : " + cart.getOderNumber());
+                mailMessage.setText("Your product will be delivered tomorrow!! Please check your phone ---Thank");
+                javaMailSender.send(mailMessage);
+                mailServiceFeignClientPurchase.updateIsSendingTrue(true, cart.getOderNumber());
+            }
+        }
+        System.out.println("not mail send");
+
+    }
 
 
 }

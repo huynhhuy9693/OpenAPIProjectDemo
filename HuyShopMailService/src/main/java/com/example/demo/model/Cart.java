@@ -19,5 +19,6 @@ public class Cart {
     private String userNameOrder;
     private String email;
     private List<CartItem> cartItemDTOList;
+    private Boolean isSending;
 
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -47,15 +49,32 @@ public class CartService {
         return result;
     }
 
+    @Transactional
+    public Integer updateIsSendingByOrderNumber(Boolean isSending , String orderNumber)
+    {
+        int result = repository.updateIsSendingTrue(true,orderNumber);
+        return result;
+    }
+
+
+
     public List<Cart> findAll()
     {
         List<CartEntity> request = repository.findAll();
+        try{
+            mailFeignClient.sendMailNotiBeforeDeli();
+        }catch (Exception e)
+        {
+            e.getCause().printStackTrace();
+        }
         List<Cart> cartList = new ArrayList<>();
         for (CartEntity c: request) {
             Cart response = modelMapper.map(c, Cart.class);
             cartList.add(response);
         }
+
         return cartList;
+
     }
 
     public Long sumTotalPrice()
@@ -64,7 +83,28 @@ public class CartService {
         return result;
     }
 
+    public List<Cart> findByOrderDate(LocalDate orderDate)
+    {
+        List<CartEntity> cartEntityList = repository.findByDateOrder(orderDate);
+        List<Cart> cartList = new ArrayList<>();
+        for (CartEntity c:cartEntityList)
+        {
+            Cart cart = modelMapper.map(c, Cart.class);
+            cartList.add(cart);
+        }
+        return cartList;
+    }
 
+    public List<Cart> findByIsSending()
+    {
+        List<CartEntity> cartEntityList = repository.findByIsSendingFalse();
+        List<Cart> cartList = new ArrayList<>();
+        for (CartEntity c: cartEntityList) {
+            Cart cart = modelMapper.map(c, Cart.class);
+            cartList.add(cart);
+        }
+        return cartList;
+    }
 
 
 }

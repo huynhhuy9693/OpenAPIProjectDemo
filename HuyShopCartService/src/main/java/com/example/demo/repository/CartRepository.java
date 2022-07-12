@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface
 CartRepository extends JpaRepository<CartEntity,Long> {
 
@@ -20,6 +24,14 @@ CartRepository extends JpaRepository<CartEntity,Long> {
 
     @Query("SELECT SUM(c.totalPrice) FROM CartEntity c")
     Long sumTotalPrice();
+
+    List<CartEntity> findByDateOrder(LocalDate dateOrder);
+
+    List<CartEntity> findByIsSendingFalse();
+
+    @Modifying
+    @Query("Update CartEntity c set c.isSending=:isSending where c.oderNumber=:orderNumber")
+    Integer updateIsSendingTrue(@Param("isSending") Boolean isSending,@Param("orderNumber") String orderNumber);
 
 
 }

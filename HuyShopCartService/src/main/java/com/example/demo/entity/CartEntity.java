@@ -2,11 +2,14 @@ package com.example.demo.entity;
 
 
 import com.example.demo.dto.UserOrder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
@@ -28,9 +31,13 @@ public class CartEntity {
     private Double totalPrice;
     @Column(name = "status")
     private String status;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Column(name = "date_order")
+    private LocalDate dateOrder;
     private String shippingAddress;
     private String userNameOrder;
     private String email;
+    private Boolean isSending;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartEntity")
@@ -46,5 +53,7 @@ public class CartEntity {
         cartItemEntityList.add(item);
         item.setCartEntity(this);
     }
+
+
 
 }

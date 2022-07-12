@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "mail-service" )
 public interface MailFeignClient {
 
-    @PostMapping(value = "/mail/send/{ordernumber}" )
-    Purchase sendMailSuccess(@PathVariable ("ordernumber") String orderNumber,@RequestBody String jsonPurchase);
+    @PostMapping(value = "/mail/send/{orderNumber}" )
+    void sendMailSuccess(@PathVariable ("orderNumber") String orderNumber,@RequestBody String jsonPurchase);
 
     @PostMapping(value = "/mail/send/{userName}" )
-    Purchase sendMailBeforeOneDayDelievery(@PathVariable ("userName") String userName,@RequestBody String jsonPurchase);
+    void sendMailBeforeOneDayDelivery(@PathVariable ("userName") String userName,@RequestBody String jsonPurchase);
+
+    @PostMapping(value = "/mail/send/notiBeforeDelivery")
+    void sendMailNotiBeforeDeli();
+
 }

@@ -270,6 +270,13 @@ components:
           format: int64
         status:
           type: string
+        dateOrder:
+          type: string
+          format: date
+        email:
+          type: string
+        isSending:
+          type: boolean
     CartItem:
       description: This is Cart-Item Model
       type: object

@@ -57,8 +57,8 @@ public class MailController {
         }
         return "send mail success";
     }
-    @PostMapping(value="/send/{ordernumber}",consumes = "text/plain;charset=UTF-8")
-    public String sendEmailCartSuccess(@PathVariable ("ordernumber") String orderNumber,@RequestBody  String jsonPurchase ) {
+    @PostMapping(value="/send/{orderNumber}",consumes = "text/plain;charset=UTF-8")
+    public String sendEmailCartSuccess(@PathVariable ("orderNumber") String orderNumber,@RequestBody  String jsonPurchase ) {
         System.out.println("mail-order");
         Purchase p = new Purchase();
         try{
@@ -71,18 +71,18 @@ public class MailController {
    }
 
 
-//    @PostMapping(value="/send/{userName}",consumes = "text/plain;charset=UTF-8")
-//    public String sendMailBeforeOneDayDelievery(@PathVariable ("userName") String userName,@RequestBody  String jsonPurchase ) {
-//        System.out.println("mail-order");
-//        Purchase p = new Purchase();
-//        try{
-//            service.sendMailBeforeOneDayDelievery(userName,jsonPurchase);
-//        }catch (MailException e)
-//        {
-//            System.out.println(e);
-//        }
-//        return "send mail success";
-//    }
+    @PostMapping(value="/send/notiBeforeDelivery")
+    public String sendMailBeforeOneDayDelievery() {
+        System.out.println("mail-order");
+        Purchase p = new Purchase();
+        try{
+            service.sendMailBeforeOneDayDelievery();
+        }catch (MailException e)
+        {
+            System.out.println(e);
+        }
+        return "send mail success";
+    }
 
 
 

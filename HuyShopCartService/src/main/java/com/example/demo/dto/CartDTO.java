@@ -4,6 +4,8 @@ import com.example.demo.entity.CartItemEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
@@ -22,6 +24,8 @@ public class CartDTO {
     private String shippingAddress;
     private String userNameOrder;
     private String email;
+    private LocalDate dateOrder;
+    private Boolean isSending;
 
 //    public void add(CartItemDTO item) {
 //

@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 @Getter
 @Setter
