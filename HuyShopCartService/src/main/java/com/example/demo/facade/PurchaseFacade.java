@@ -1,5 +1,6 @@
 package com.example.demo.facade;
 
+import com.example.demo.service.MailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -37,6 +38,9 @@ public class PurchaseFacade {
 
     @Autowired
     private CartItemService cartItemService;
+
+    @Autowired
+    MailService mailService;
 
     private static final String digits = "0123456789";
     private static final String ALPHA_NUMERIC =  digits;
@@ -94,7 +98,7 @@ public class PurchaseFacade {
         String jsonPurchase = obj.writeValueAsString(purchase);
 
         try{
-            mailFeignClient.sendMailSuccess(oderNumber,jsonPurchase);
+            mailService.sendMailPurchaseSuccsess(oderNumber,jsonPurchase);
 
         }catch (Exception e)
         {

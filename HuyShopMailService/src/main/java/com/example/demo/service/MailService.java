@@ -3,15 +3,15 @@ package com.example.demo.service;
 
 import com.example.demo.model.*;
 import com.google.gson.Gson;
-import org.json.JSONObject;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,6 +21,15 @@ public class MailService {
 
     @Autowired
     MailServiceFeignClientPurchase mailServiceFeignClientPurchase;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${spring.rabbitmq.routingkey}")
+    private String routingkey;
 
     @Autowired
     public MailService(JavaMailSender javaMailSender)
@@ -34,7 +43,7 @@ public class MailService {
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("register success " + user.getName() );
         mailMessage.setText("Hello new  user : " + user.getUserName()+"-"+"password : "+user.getPassWord());
-        javaMailSender.send(mailMessage);
+        rabbitTemplate.convertAndSend(exchange,routingkey,mailMessage);
     }
 
     public void sendMailUpdateUser(User user)
@@ -43,7 +52,7 @@ public class MailService {
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("update success " + user.getName() );
         mailMessage.setText("Hello user : " + user.getUserName()+"-"+"password changed success : "+user.getPassWord());
-        javaMailSender.send(mailMessage);
+        rabbitTemplate.convertAndSend(exchange,routingkey,mailMessage);
     }
 
     public void sendMailPurchaseSuccsess(String orderNumber, String jsonPurchase)
@@ -62,7 +71,7 @@ public class MailService {
                 "--We will delivery your product in 5 days in " + purchase.getShippingAddress()+
                 "-- Please check invoice details and status in website -- thank you and see your later"
                 );
-        javaMailSender.send(mailMessage);
+        rabbitTemplate.convertAndSend(exchange,routingkey,mailMessage);
     }
 
     @Scheduled(cron = "0 */5 * ? * *")
@@ -78,7 +87,7 @@ public class MailService {
                 mailMessage.setTo(cart.getEmail());
                 mailMessage.setSubject("thank you : " + cart.getOderNumber());
                 mailMessage.setText("Your product will be delivered tomorrow!! Please check your phone ---Thank");
-                javaMailSender.send(mailMessage);
+                rabbitTemplate.convertAndSend(exchange,routingkey,mailMessage);
                 mailServiceFeignClientPurchase.updateIsSendingTrue(true, cart.getOderNumber());
             }
         }

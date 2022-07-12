@@ -5,6 +5,7 @@ import com.example.demo.service.MailService;
 import com.example.demo.service.MailServiceFeignClientPurchase;
 import com.example.demo.service.MailServiceFeignClientUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.mail.MailException;
 
@@ -31,6 +32,9 @@ public class MailController {
     @Autowired
     ModelMapper modelMapper;
 
+    @Value("${app.message}")
+    private String message;
+
 
     @PostMapping(value="/send")
     public String sendEmailCreateUser(@RequestBody User user) {
@@ -42,7 +46,7 @@ public class MailController {
         {
             System.out.println(e);
         }
-        return "send mail success";
+        return message;
     }
 
     @PutMapping(value="/send/{id}")
@@ -55,33 +59,31 @@ public class MailController {
         {
             System.out.println(e);
         }
-        return "send mail success";
+        return message;
     }
-    @PostMapping(value="/send/{orderNumber}",consumes = "text/plain;charset=UTF-8")
-    public String sendEmailCartSuccess(@PathVariable ("orderNumber") String orderNumber,@RequestBody  String jsonPurchase ) {
+    @PostMapping(value="/send/{orderNumber}",consumes = "application/json")
+    public String sendEmailCartSuccess(@PathVariable ("orderNumber") String orderNumber,@RequestBody  String jsonPurchase) {
         System.out.println("mail-order");
-        Purchase p = new Purchase();
         try{
             service.sendMailPurchaseSuccsess(orderNumber,jsonPurchase);
         }catch (MailException e)
         {
             System.out.println(e);
         }
-        return "send mail success";
+        return message;
    }
 
 
     @PostMapping(value="/send/notiBeforeDelivery")
-    public String sendMailBeforeOneDayDelievery() {
+    public String sendMailBeforeOneDayDelievery(@RequestBody MailModel mailModel) {
         System.out.println("mail-order");
-        Purchase p = new Purchase();
         try{
             service.sendMailBeforeOneDayDelievery();
         }catch (MailException e)
         {
             System.out.println(e);
         }
-        return "send mail success";
+        return message;
     }
 
 

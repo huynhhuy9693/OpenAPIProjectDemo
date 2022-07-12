@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "mail-service" )
 public interface MailFeignClient {
 
-    @PostMapping(value = "/mail/send/{orderNumber}" )
+    @PostMapping(value = "/mail/send/{orderNumber}",consumes = "application/json" )
     void sendMailSuccess(@PathVariable ("orderNumber") String orderNumber,@RequestBody String jsonPurchase);
 
     @PostMapping(value = "/mail/send/{userName}" )

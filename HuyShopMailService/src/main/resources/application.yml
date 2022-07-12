@@ -24,6 +24,14 @@ spring:
             required: true
           ssl:
             trust: smtp.gmail.com
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 15672
+    username: guest
+    exchange: mail.exchange
+    queue: mail.queue
+    routingkey: mail.routingkey
 
   application:
     name: mail-service
@@ -31,3 +39,8 @@ spring:
 
 #    username: huynhhuy9693@gmail.com
 #    password: cyvnmufgfyvzqtvw
+
+
+app:
+  message: Mail has been sent Successfully...
+

@@ -1,0 +1,14 @@
+
+server:
+  port: 8100
+spring:
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 15672
+    username: guest
+    exchange: mail.exchange
+    queue: mail.queue
+    routingkey: mail.routingkey
+
+
